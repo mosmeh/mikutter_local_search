@@ -24,12 +24,6 @@ Plugin.create :mikutter_local_search do
     loaded_messages.flatten!
   end
 
-  on_search_start do |query|
-    querybox.text = query
-    searchbtn.clicked
-    timeline(:local_search).active!
-  end
-
   querybox.signal_connect('activate'){|elm| searchbtn.clicked}
 
   searchbtn.signal_connect('clicked') do |elm|
@@ -43,9 +37,5 @@ Plugin.create :mikutter_local_search do
       end
     end
     elm.sensitive = querybox.sensitive = true
-  end
-
-  Message::Entity.addlinkrule(:hashtags, /(?:#|＃)[a-zA-Z0-9_]+/, :search_hashtag) do |segment|
-    Plugin.call(:search_start, '#' + segment[:url].match(/^(?:#|＃)?(.+)$/)[1])
   end
 end
