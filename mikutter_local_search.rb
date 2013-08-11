@@ -32,8 +32,9 @@ Plugin.create :mikutter_local_search do
     if querybox.text == ''
       timeline(:local_search) << Message.new(:message => 'キーワードを指定してください', :system => true)
     else
+      query = querybox.text.downcase
       timeline(:local_search) << loaded_messages.select do |message|
-        message.to_s.include?(querybox.text)
+        message.to_s.downcase.include?(query)
       end
     end
     elm.sensitive = querybox.sensitive = true
